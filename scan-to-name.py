@@ -1,7 +1,27 @@
 import requests
 from os import getenv
-from getch import getch # requires command line tools for xcode
+import sys
 
+def getch_windows():
+    import msvcrt
+    return msvcrt.getch().decode('utf-8')
+
+def getch_unix():
+    import tty, termios
+    fd = sys.stdin.fileno()
+    old_settings = termios.tcgetattr(fd)
+    try:
+        tty.setraw(fd)
+        ch = sys.stdin.read(1)
+    finally:
+        termios.tcsetattr(fd, termios.TCSADRAIN, old_settings)
+    return ch
+
+try:
+    import msvcrt
+    getch = getch_windows
+except ImportError:
+    getch = getch_unix
 
 murl = 'https://api.mist.com/api/v1'
 my_headers = {"Authorization": f"Token {getenv('MIST_TOKEN')}",
