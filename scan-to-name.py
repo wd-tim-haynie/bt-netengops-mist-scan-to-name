@@ -238,7 +238,7 @@ def ScanMAC():
         if char == '\r':  # carriage return or new line
             user_input = ''  # reset user input
             print("\nCleared current MAC.")
-        elif char == '\x7f':
+        elif char == '\x7f' or char == '\x08':  # backspace for Unix or Windows
             if user_input:  # Only do something if user_input is not empty
                 user_input = user_input[:-1]  # Trim a character from user_input
                 num_chars = max(0, num_chars - 1)  # Decrement num_chars
