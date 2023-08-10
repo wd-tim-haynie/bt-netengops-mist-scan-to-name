@@ -41,7 +41,7 @@ def main():
     while keep_adding:
         aps = Load_APs(siteid)
         Add_APs(siteid, aps)
-        print(f"{len(aps_added)} APs were added.")
+        print(f"\n{len(aps_added)} APs were added.")
         confirmation = input("Done adding APs? Confirm with 'y': ").lower()
         if confirmation == 'y':
             keep_adding = False
@@ -129,7 +129,7 @@ def Add_APs(siteid, aps):
 
     proceed = True
     while proceed:
-        print("Scan or type AP MAC, or type 'p' to go back: ")
+        print("Scan or type AP MAC. Type 'p' to go back: ")
         mac = ScanMAC()
         mac = mac.replace(':', '')
         mac = mac.replace('.', '')
@@ -237,15 +237,23 @@ def ScanMAC():
         char = getch()
         if char == '\r':  # carriage return or new line
             user_input = ''  # reset user input
+            print("\nCleared current MAC.")
+        elif char == '\x7f':
+            if user_input:  # Only do something if user_input is not empty
+                user_input = user_input[:-1]  # Trim a character from user_input
+                num_chars = max(0, num_chars - 1)  # Decrement num_chars
+                print('\b \b', end='', flush=True)  # Move cursor back, overwrite with space, then move back again
         elif char in allowed_delimiters:
             user_input += char
+            print (char, end='', flush=True)
         elif char in allowed_chars:
             user_input += char
             num_chars += 1
+            print (char, end='', flush=True)
         elif char.lower() == 'p':
             return 'p'
 
-    print(user_input)
+    print()
     return user_input
 
 
