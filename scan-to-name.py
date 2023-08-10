@@ -236,7 +236,7 @@ def ScanMAC():
 
     while num_chars < 12:
         char = getch()
-        if char == '\r' or char == '\n':  # carriage return or new line
+        if char == '\r':  # carriage return or new line
             user_input = ''  # reset user input
         elif char in allowed_delimiters:
             user_input += char
@@ -245,9 +245,6 @@ def ScanMAC():
             num_chars += 1
         elif char.lower() == 'p':
             return 'p'
-        else:
-            print("ascii: ", ord(char))
-            print("utf-8: ", char.encode('utf-8'))
 
     print(user_input)
     return user_input
