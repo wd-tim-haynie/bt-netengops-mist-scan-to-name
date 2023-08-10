@@ -3,7 +3,6 @@ from os import getenv
 import sys
 
 def getch_windows():
-    import msvcrt
     return msvcrt.getch().decode('utf-8')
 
 def getch_unix():
@@ -22,6 +21,7 @@ try:
     getch = getch_windows
 except ImportError:
     getch = getch_unix
+
 
 murl = 'https://api.mist.com/api/v1'
 my_headers = {"Authorization": f"Token {getenv('MIST_TOKEN')}",
@@ -236,7 +236,7 @@ def ScanMAC():
 
     while num_chars < 12:
         char = getch()
-        if char == '\r':  # '\r' is the carriage return character
+        if char == '\r' or char == '\n':  # carriage return or new line
             break
         elif char in allowed_delimiters:
             user_input += char
