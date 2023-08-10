@@ -1,12 +1,11 @@
 import requests
 from os import getenv
-import sys
 
 def getch_windows():
     return msvcrt.getch().decode('utf-8')
 
 def getch_unix():
-    import tty, termios
+    import sys, tty, termios
     fd = sys.stdin.fileno()
     old_settings = termios.tcgetattr(fd)
     try:
